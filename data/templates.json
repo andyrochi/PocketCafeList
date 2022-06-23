@@ -18,13 +18,13 @@
           "contents": [
             {
               "type": "text",
-              "text": "Brown Cafe",
+              "text": "{{locationName}}",
               "weight": "bold",
               "size": "xl"
             },
             {
               "type": "text",
-              "text": "110 公尺",
+              "text": "{{distance}}",
               "size": "md"
             },
             {
@@ -47,7 +47,7 @@
                     },
                     {
                       "type": "text",
-                      "text": "Miraina Tower, 4-1-6 Shinjuku, Tokyo",
+                      "text": "{{address}}",
                       "wrap": true,
                       "color": "#666666",
                       "size": "sm",
@@ -93,7 +93,7 @@
               "action": {
                 "type": "uri",
                 "label": "View on Cafe Nomad",
-                "uri": "https://linecorp.com"
+                "uri": "{{nomadUrl}}"
               }
             },
             {
@@ -103,7 +103,7 @@
               "action": {
                 "type": "uri",
                 "label": "Official Site",
-                "uri": "https://linecorp.com"
+                "uri": "https://www.google.com"
               }
             },
             {

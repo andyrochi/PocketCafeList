@@ -3,6 +3,10 @@ const data = require('../data/data.json');
 const { UserManager, UserInfo } = require('./userManager');
 const templates = require('../data/templates.json');
 const { client } = require('../index');
+const Mustache = require("mustache");
+
+// Disable excape
+Mustache.escape = function(text) {return text;};
 
 const manager = new UserManager();
 
@@ -100,13 +104,16 @@ function defaultMessage() {
 
 // Create location card
 function createLocation(row) {
-    const card = JSON.parse(JSON.stringify(templates['location_card']))
     const dist = Math.round(row.distance * 1000)
     const id = row.id
-    card["body"]["contents"][0]["text"] = row.name
-    card["body"]["contents"][1]["text"] = `${dist} 公尺`
-    card["body"]["contents"][2]["contents"][0]["contents"][1]["text"] = row.address
-    card["footer"]["contents"][0]["action"]["uri"] = `https://cafenomad.tw/shop/${id}`
+    const data = {
+        locationName: row.name,
+        distance: dist,
+        address: row.address,
+        nomadUrl: `https://cafenomad.tw/shop/${id}`
+    }
+    const rendered = Mustache.render(JSON.stringify(templates['location_card']), data)
+    const card = JSON.parse(rendered)
     card["footer"]["contents"][1] = getOfficialWebsite(row.url)
     return card
 }
