@@ -1,5 +1,5 @@
 {
-  "name": "echo-bot",
+  "name": "cafes-near-me",
   "version": "0.0.0",
   "description": "An example LINE bot just to echo messages",
   "main": "index.js",
@@ -9,6 +9,7 @@
   "dependencies": {
     "@line/bot-sdk": "^7.3.0",
     "dotenv": "^16.0.0",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "pg": "^8.7.3"
   }
 }
