@@ -35,15 +35,18 @@ app.post('/callback', line.middleware(config), (req, res) => {
 });
 
 // event handler
-function handleEvent(event) {
-  if (event.type !== 'message' || event.message.type !== 'text') {
-    // ignore non-text-message event
+async function handleEvent(event) {
+  if (event.type !== 'message' && event.message.type !== 'text' && event.message.type !== 'location') {
+    // ignore non-text-message/non-location event
     return Promise.resolve(null);
   }
 
   // handle text message with commandHandler
-  const echo = command.commandHandler(event.source, event.message);
-
+  const echo = await command.commandHandler(event.source, event.message);
+  
+  if (echo === null) {
+    return Promise.resolve(null);
+  }
   // use reply API
   return client.replyMessage(event.replyToken, echo);
 }
