@@ -2,6 +2,7 @@ const db = require('../db');
 const data = require('../data/data.json');
 const { UserManager, UserInfo } = require('./userManager');
 const templates = require('../data/templates.json');
+const { client } = require('../index');
 
 const manager = new UserManager();
 
@@ -9,7 +10,7 @@ const manager = new UserManager();
     Handles commands and maintains each user's history.
 */
 async function commandHandler(eventSource, eventMessage) {
-    const user = handleUser(eventSource);
+    const user = await handleUser(eventSource);
     let response = defaultMessage();
     // Handle text message based on text
     if (eventMessage.type === 'text') {
@@ -66,9 +67,30 @@ async function commandHandler(eventSource, eventMessage) {
     Check if user is in userManager, if not, add new user.
     Returns the userInfo.
 */
-function handleUser(eventSource) {
+async function handleUser(eventSource) {
     const userId = eventSource.userId;
-    const user = manager.getUser(userId) || manager.insertUser(new UserInfo(userId));
+    let user = manager.getUser(userId);
+    if(user === null) {
+        // Obtain displayName
+        let displayName = '';
+        await client.getProfile(userId)
+            .then((profile) => {
+                displayName = profile.displayName;
+            })
+        manager.insertUser(new UserInfo(userId, displayName));
+        const params = [userId, displayName];
+        const query = 
+            `INSERT INTO "user"(userid, displayname)
+            VALUES($1, $2)
+            ON CONFLICT(userid) DO NOTHING`;
+        // query database
+        await db.query(query,params).then((res) => {
+            console.log('Insert status:', res.rowCount)
+        }).catch(e => {
+            console.error(e.stack)
+        })
+    }
+    
     return user;
 }
 

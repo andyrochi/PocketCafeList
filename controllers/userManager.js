@@ -52,10 +52,11 @@ class UserManager {
             If there are over 50 messages in the message history, we clear 40 messages.
 */
 class UserInfo {
-    constructor(userId) {
+    constructor(userId, displayName) {
         this.userId = userId;
+        this.displayName = displayName;
         this.messageHistory = [];
-        console.log('New user added:', userId);
+        console.log('New user added:', displayName, userId);
     }
 
     getLastMessage() {

@@ -2,7 +2,6 @@
 
 const line = require('@line/bot-sdk');
 const express = require('express');
-const command = require('./controllers/commandHandler');
 
 // Obtain token and secret from .env if not production
 if (process.env.NODE_ENV !== 'production') {
@@ -17,6 +16,10 @@ const config = {
 
 // create LINE SDK client
 const client = new line.Client(config);
+// export to import in commandHandler
+exports.client = client;
+// prevent cyclic dependencies
+const command = require('./controllers/commandHandler');
 
 // create Express app
 // about Express itself: https://expressjs.com/
@@ -56,3 +59,7 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`listening on ${port}`);
 });
+
+module.exports = {
+  client: client
+}
