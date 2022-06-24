@@ -259,7 +259,7 @@
               "action": {
                 "type": "postback",
                 "label": "移除地點",
-                "data": "remove={{id}}"
+                "data": "delete={{id}}"
               },
               "color": "#C70039",
               "style": "link",

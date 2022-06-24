@@ -46,6 +46,23 @@ async function commandHandler(event) {
                 console.error(e.stack)
             })
         }
+        else if (mode === 'delete') {
+            const query =
+                `DELETE FROM saved_location
+                WHERE userid = $1 AND id = $2`;
+            const params = [userId, id];
+            await db.query(query,params).then((res) => {
+                console.log('Insert status:', res.rowCount)
+                if (res.rowCount === 1) {
+                    response = textMessage("已刪除地點！")
+                }
+                else {
+                    response = textMessage("地點已經被刪除過了喔！")
+                }
+            }).catch(e => {
+                console.error(e.stack)
+            })
+        }
     }
     // Handle text message based on text
     else if (eventMessage.type === 'text') {
