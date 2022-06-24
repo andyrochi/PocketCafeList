@@ -1,0 +1,155 @@
+{
+    "return":"back",
+    "home":{
+        "type":"flex",
+        "altText":"home",
+        "contents":{
+            "type": "bubble",
+            "hero": {
+              "type": "image",
+              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+              "size": "full",
+              "aspectRatio": "20:13",
+              "aspectMode": "cover",
+              "action": {
+                "type": "uri",
+                "uri": "http://linecorp.com/"
+              }
+            },
+            "body": {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "歡迎，來尋找咖啡廳吧！",
+                  "weight": "bold",
+                  "size": "xl"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "探索咖啡廳",
+                      "weight": "bold",
+                      "margin": "md",
+                      "color": "#905c44"
+                    },
+                    {
+                      "type": "text",
+                      "text": "只要傳給我任意的位置，我就能夠幫你找到最近的咖啡廳唷！點選下方的「尋找附近的咖啡廳吧！」馬上開始",
+                      "size": "sm",
+                      "wrap": true,
+                      "margin": "sm"
+                    },
+                    {
+                      "type": "box",
+                      "layout": "vertical",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": "收藏地點",
+                          "weight": "bold",
+                          "margin": "md",
+                          "color": "#905c44"
+                        },
+                        {
+                          "type": "text",
+                          "text": "看到感興趣的咖啡廳即可收藏！點選下列「我的清單」即可查看清單",
+                          "size": "sm",
+                          "wrap": true,
+                          "margin": "sm"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "footer": {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "button",
+                  "style": "primary",
+                  "height": "sm",
+                  "action": {
+                    "type": "message",
+                    "label": "我的咖啡廳清單",
+                    "text": "我的清單"
+                  },
+                  "color": "#905c44"
+                }
+              ],
+              "flex": 0
+            }
+          }
+    },
+    "about":{
+        "type":"flex",
+        "altText":"about",
+        "contents":{
+            "type":"bubble",
+            "body":{
+                "type":"box",
+                "layout":"vertical",
+                "contents":[
+                    {
+                        "type":"box",
+                        "layout":"vertical",
+                        "contents":[
+                            {
+                                "type":"text",
+                                "text":"About",
+                                "weight":"bold",
+                                "size":"xl"
+                            }
+                        ]
+                    },
+                    {
+                        "type":"box",
+                        "layout":"vertical",
+                        "contents":[
+                            {
+                                "type":"text",
+                                "text":"This is the about section. I'm Johnny Appleseed.",
+                                "wrap":true
+                            }
+                        ]
+                    },
+                    {
+                        "type":"box",
+                        "layout":"vertical",
+                        "contents":[
+                            {
+                                "type":"text",
+                                "text":"Navigation",
+                                "weight":"bold",
+                                "size":"lg"
+                            }
+                        ],
+                        "margin":"xl"
+                    },
+                    {
+                        "type":"box",
+                        "layout":"vertical",
+                        "contents":[
+                            {
+                                "type":"button",
+                                "action":{
+                                    "type":"message",
+                                    "label":"Return to previous page",
+                                    "text":"return"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}
