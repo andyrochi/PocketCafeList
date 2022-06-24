@@ -8,6 +8,7 @@ const Mustache = require("mustache");
 // Disable excape
 Mustache.escape = function(text) {return text;};
 
+const dateOptions = {year: 'numeric', month: 'long', day: 'numeric' }
 const manager = new UserManager();
 
 /*
@@ -27,6 +28,16 @@ async function commandHandler(event) {
         if (postback_data === undefined) return response
         const res = postback_data.split("=")
         const mode = res[0], id = res[1]
+
+        /* Obtain location info */
+        const query = 
+            `SELECT * FROM cafe WHERE id = $1`
+        const params = [id];
+        let location = {};
+        await db.query(query, params).then((res)=>{
+            location = res.rows[0];
+        }).catch(e=> console.error(e.stack))
+
         const date = new Date()
         if (mode === 'save') {
             const query = 
@@ -37,7 +48,14 @@ async function commandHandler(event) {
             await db.query(query,params).then((res) => {
                 console.log('Insert status:', res.rowCount)
                 if (res.rowCount === 1) {
-                    response = textMessage("地點儲存成功！")
+                    const statusData = {
+                        "locationName": location.name,
+                        "address": location.address,
+                        "date": date.toLocaleDateString('zh-TW', dateOptions),
+                        "status": "地點儲存成功！"
+                    }
+                    const card = renderCard('status', statusData)
+                    response = card;
                 }
                 else {
                     response = textMessage("之前已經存過了喔！")
@@ -52,9 +70,9 @@ async function commandHandler(event) {
                 WHERE userid = $1 AND id = $2`;
             const params = [userId, id];
             await db.query(query,params).then((res) => {
-                console.log('Insert status:', res.rowCount)
+                console.log('Delete status:', res.rowCount)
                 if (res.rowCount === 1) {
-                    response = textMessage("已刪除地點！")
+                    response = textMessage(`已刪除地點：${location.name}`)
                 }
                 else {
                     response = textMessage("地點已經被刪除過了喔！")
@@ -62,6 +80,9 @@ async function commandHandler(event) {
             }).catch(e => {
                 console.error(e.stack)
             })
+        }
+        else if (mode === 'nosite') {
+            response = textMessage(`${location.name}尚無官方網站哦！`)
         }
     }
     // Handle text message based on text
@@ -191,26 +212,24 @@ function createLocation(row) {
         nomadUrl: `https://cafenomad.tw/shop/${id}`,
         id: row.id
     }
-    const rendered = Mustache.render(JSON.stringify(templates['location_card']), data)
-    const card = JSON.parse(rendered)
-    card["footer"]["contents"][1] = getOfficialWebsite(row.url)
+    const card = renderCard('location_card', data)
+    card["footer"]["contents"][1] = getOfficialWebsite(row.url, row.id)
     return card
 }
 
 function createSavedLocation(row) {
     const date = new Date(row.add_date)
-    const options = {year: 'numeric', month: 'long', day: 'numeric' }
+    
     const data = {
         locationName: row.name,
-        addDate: date.toLocaleDateString('zh-TW', options),
+        addDate: date.toLocaleDateString('zh-TW', dateOptions),
         address: row.address,
         nomadUrl: `https://cafenomad.tw/shop/${row.id}`,
         id: row.id,
         city: dataJson.cities[row.city]
     }
-    const rendered = Mustache.render(JSON.stringify(templates['saved_location_card']), data)
-    const card = JSON.parse(rendered)
-    card["footer"]["contents"][1] = getOfficialWebsite(row.url)
+    const card = renderCard('saved_location_card', data)
+    card["footer"]["contents"][1] = getOfficialWebsite(row.url, row.id)
     return card
 }
 
@@ -227,15 +246,15 @@ function createCarousel(altText="這是附近的咖啡廳！") {
 }
 
 // Create official site button
-function getOfficialWebsite(url) {
+function getOfficialWebsite(url, id) {
     let officialSiteBtn =  {
         "type": "button",
         "style": "link",
         "height": "sm",
         "action": {
-            "type": "message",
-            "label": "Official Site",
-            "text": "本店尚無官方網站"
+          "type": "postback",
+          "label": "Official Site",
+          "data": `nosite=${id}`
         },
         "color": "#aaaaaa"
     }
@@ -276,6 +295,11 @@ function addQuickReply(msg) {
         msg[msg.length-1].quickReply = templates.quickReply;
     }
     return msg;
+}
+
+function renderCard(template, data) {
+    const rendered = Mustache.render(JSON.stringify(templates[template]), data)
+    return JSON.parse(rendered)
 }
 
 exports.commandHandler = commandHandler;
