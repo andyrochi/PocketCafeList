@@ -24,7 +24,7 @@
             },
             {
               "type": "text",
-              "text": "{{distance}}",
+              "text": "{{distance}}公尺",
               "size": "md"
             },
             {
@@ -94,7 +94,8 @@
                 "type": "uri",
                 "label": "View on Cafe Nomad",
                 "uri": "{{nomadUrl}}"
-              }
+              },
+              "color": "#905c44"
             },
             {
               "type": "button",
@@ -104,13 +105,19 @@
                 "type": "uri",
                 "label": "Official Site",
                 "uri": "https://www.google.com"
-              }
+              },
+              "color": "#49281A"
             },
             {
-              "type": "box",
-              "layout": "vertical",
-              "contents": [],
-              "margin": "sm"
+              "type": "button",
+              "action": {
+                "type": "postback",
+                "label": "儲存地點",
+                "data": "save={{id}}",
+                "displayText": "儲存地點：{{locationName}}"
+              },
+              "color": "#905c44",
+              "style": "primary"
             }
           ],
           "flex": 0
