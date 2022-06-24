@@ -69,7 +69,7 @@
                     },
                     {
                       "type": "text",
-                      "text": "10:00 - 23:00",
+                      "text": "{{time}}",
                       "wrap": true,
                       "color": "#666666",
                       "size": "sm",
@@ -215,7 +215,7 @@
                     },
                     {
                       "type": "text",
-                      "text": "10:00 - 23:00",
+                      "text": "{{time}}",
                       "wrap": true,
                       "color": "#666666",
                       "size": "sm",

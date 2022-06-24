@@ -212,7 +212,8 @@ function createLocation(row, coordinates) {
         nomadUrl: `https://cafenomad.tw/shop/${id}`,
         id: row.id,
         imageUrl: `https://maps.googleapis.com/maps/api/staticmap?size=400x300&markers=color:brown%7C${row.latitude},${row.longitude}&path=color:brown%7C${coordinates[0]},${coordinates[1]}%7C${row.latitude},${row.longitude}&key=${mapsAPI}`,
-        imageActionLink: `https://www.google.com/maps/search/?api=1&query=${row.latitude},${row.longitude}`
+        imageActionLink: `https://www.google.com/maps/search/?api=1&query=${row.latitude},${row.longitude}`,
+        time: row.open_time || '12:00 - 19:00'
     }
     const card = renderCard('location_card', data)
     card["footer"]["contents"][1] = getOfficialWebsite(row.url, row.id)
@@ -230,7 +231,8 @@ function createSavedLocation(row) {
         id: row.id,
         city: dataJson.cities[row.city],
         imageUrl: `https://maps.googleapis.com/maps/api/staticmap?size=400x400&markers=color:brown%7C${row.latitude},${row.longitude}&key=${mapsAPI}`,
-        imageActionLink: `https://www.google.com/maps/search/?api=1&query=${row.latitude},${row.longitude}`
+        imageActionLink: `https://www.google.com/maps/search/?api=1&query=${row.latitude},${row.longitude}`,
+        time: row.open_time || '12:00 - 19:00'
     }
     const card = renderCard('saved_location_card', data)
     card["footer"]["contents"][1] = getOfficialWebsite(row.url, row.id)
