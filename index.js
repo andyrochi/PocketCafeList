@@ -14,6 +14,9 @@ const config = {
   channelSecret: process.env.CHANNEL_SECRET,
 };
 
+// export Maps API key
+exports.mapsAPI = process.env.MAPS_API_KEY;
+
 // create LINE SDK client
 const client = new line.Client(config);
 // export to import in commandHandler

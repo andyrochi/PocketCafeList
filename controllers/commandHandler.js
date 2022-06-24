@@ -2,7 +2,7 @@ const db = require('../db');
 const dataJson = require('../data/data.json');
 const { UserManager, UserInfo } = require('./userManager');
 const templates = require('../data/templates.json');
-const { client } = require('../index');
+const { client, mapsAPI } = require('../index');
 const Mustache = require("mustache");
 
 // Disable excape
@@ -145,12 +145,12 @@ async function commandHandler(event) {
                     calculate_distance($1, $2, latitude, longitude, 'K') as distance
              FROM cafe
              ORDER BY distance
-             limit 5`;
+             limit 7`;
         
         await db.query(query, coordinates).then(res => {
             const carousel = createCarousel()
             res.rows.forEach((row) => {
-                const card = createLocation(row)
+                const card = createLocation(row, coordinates)
                 carousel['contents']['contents'].push(card)
             })
             response = carousel
@@ -202,7 +202,7 @@ function defaultMessage() {
 }
 
 // Create location card
-function createLocation(row) {
+function createLocation(row, coordinates) {
     const dist = Math.round(row.distance * 1000)
     const id = row.id
     const data = {
@@ -210,7 +210,9 @@ function createLocation(row) {
         distance: dist,
         address: row.address,
         nomadUrl: `https://cafenomad.tw/shop/${id}`,
-        id: row.id
+        id: row.id,
+        imageUrl: `https://maps.googleapis.com/maps/api/staticmap?size=400x300&markers=color:brown%7C${row.latitude},${row.longitude}&path=color:brown%7C${coordinates[0]},${coordinates[1]}%7C${row.latitude},${row.longitude}&key=${mapsAPI}`,
+        imageActionLink: `https://www.google.com/maps/search/?api=1&query=${row.latitude},${row.longitude}`
     }
     const card = renderCard('location_card', data)
     card["footer"]["contents"][1] = getOfficialWebsite(row.url, row.id)
@@ -226,7 +228,9 @@ function createSavedLocation(row) {
         address: row.address,
         nomadUrl: `https://cafenomad.tw/shop/${row.id}`,
         id: row.id,
-        city: dataJson.cities[row.city]
+        city: dataJson.cities[row.city],
+        imageUrl: `https://maps.googleapis.com/maps/api/staticmap?size=400x400&markers=color:brown%7C${row.latitude},${row.longitude}&key=${mapsAPI}`,
+        imageActionLink: `https://www.google.com/maps/search/?api=1&query=${row.latitude},${row.longitude}`
     }
     const card = renderCard('saved_location_card', data)
     card["footer"]["contents"][1] = getOfficialWebsite(row.url, row.id)
@@ -271,7 +275,7 @@ function getOfficialWebsite(url, id) {
             "action": {
               "type": "uri",
               "label": "Official Site",
-              "uri": url
+              "uri": encodeURI(url)
             },
             "color": "#49281A"
         }
