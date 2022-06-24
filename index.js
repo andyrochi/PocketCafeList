@@ -2,6 +2,7 @@
 
 const line = require('@line/bot-sdk');
 const express = require('express');
+const cors = require('cors');
 
 // Obtain token and secret from .env if not production
 if (process.env.NODE_ENV !== 'production') {
@@ -23,6 +24,7 @@ const client = new line.Client(config);
 exports.client = client;
 // prevent cyclic dependencies
 const command = require('./controllers/commandHandler');
+const list = require('./controllers/list');
 
 // create Express app
 // about Express itself: https://expressjs.com/
@@ -39,6 +41,22 @@ app.post('/callback', line.middleware(config), (req, res) => {
       res.status(500).end();
     });
 });
+
+// handle frontend requests
+app.get('/list/:id',cors(), async (req, res) => {
+  const id = req.params.id
+  let response = 0;
+  await list.getUserList(id).then((res)=>{
+    console.log(res)
+    response = res;
+  })
+  if (response === false)
+    res.status(404).send({
+      message: 'User id not found!'
+    })
+  else
+    res.send(response)
+})
 
 // event handler
 async function handleEvent(event) {
