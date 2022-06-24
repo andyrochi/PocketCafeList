@@ -108,21 +108,30 @@ async function commandHandler(event) {
                     FROM "saved_location"
                     WHERE userid = $1)
                     SELECT *
-                FROM saved NATURAL JOIN cafe`;
+                FROM saved NATURAL JOIN cafe
+                ORDER BY add_date DESC`;
             const params = [userId];
             await db.query(query, params).then((res) => {
                 const rows = res.rows;
                 let text = '';
                 response = [];
-                const carousel = createCarousel("這是您已儲存的店家");
                 if (rows.length > 0) {
                     text = `${user.displayName}，這是您已儲存的店家：`
-                    response.push(addQuickReply(textMessage(text)))
-                    rows.forEach((row)=>{
+                    // new stuff
+                    console.log(rows)
+                    const perChunk = 10 // items per chunk    
+                    response = rows.reduce((result, row, index) => { 
+                        const chunkIndex = Math.floor(index/perChunk)
+                        if(chunkIndex > 4) return result
+                        if(!result[chunkIndex]) {
+                            result[chunkIndex] = addQuickReply(createCarousel("這是您已儲存的店家"));
+                        }
                         const card = createSavedLocation(row)
-                        carousel['contents']['contents'].push(card)
-                    })
-                    response.push(addQuickReply(carousel))
+                        result[chunkIndex]['contents']['contents'].push(card)
+
+                        return result
+                    }, [])
+                    response.unshift(addQuickReply(textMessage(text)))
                 }
                 else {
                     text = '您尚未儲存咖啡廳，趕快來尋找吧！'
