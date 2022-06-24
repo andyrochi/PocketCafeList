@@ -1,6 +1,8 @@
-# Self Promotion LINE Bot
+# Pocket Cafe List LINE bot
 
-A simple self promotion LINE bot that helps you promote yourself.
+Readme still in progress...
+
+A simple LINE bot that lets you save nearest cafes in your pocket.
 Simply create `data.json` under `data/` following the `example.json`, and see [data/README.md](data/README.md) for more.
 
 # Features
