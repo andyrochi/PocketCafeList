@@ -79,7 +79,7 @@ async function commandHandler(event) {
                     user.saveHistory(command);
             }
         }
-        else if (command === 'mylist') {
+        else if (command === '我的清單') {
             const query = `
                 WITH saved AS
                     (SELECT *
@@ -95,16 +95,16 @@ async function commandHandler(event) {
                 const carousel = createCarousel("這是您已儲存的店家");
                 if (rows.length > 0) {
                     text = `${user.displayName}，這是您已儲存的店家：`
-                    response.push(textMessage(text))
+                    response.push(addQuickReply(textMessage(text)))
                     rows.forEach((row)=>{
                         const card = createSavedLocation(row)
                         carousel['contents']['contents'].push(card)
                     })
-                    response.push(carousel)
+                    response.push(addQuickReply(carousel))
                 }
                 else {
                     text = '您尚未儲存咖啡廳，趕快來尋找吧！'
-                    response.push(textMessage(text))
+                    response.push(addQuickReply(textMessage(text)))
                 }
             })
         }
@@ -141,6 +141,7 @@ async function commandHandler(event) {
         if ('home' !== user.getLastMessage())
             user.saveHistory('home');
     }
+    response = addQuickReply(response);
     return response;
 }
 
@@ -221,17 +222,6 @@ function createCarousel(altText="這是附近的咖啡廳！") {
         "contents": {
             "type": "carousel",
             "contents": []
-        },
-        "quickReply": { 
-            "items": [
-                {
-                "type": "action",
-                "action": {
-                    "type": "location",
-                    "label": "尋找附近的咖啡廳吧！"
-                }
-                }
-            ]
         }
     }
 }
@@ -274,19 +264,18 @@ function getOfficialWebsite(url) {
 function textMessage(text) {
     return {
         "type": "text",
-        "text": text,
-        "quickReply": { 
-            "items": [
-                {
-                "type": "action",
-                "action": {
-                    "type": "location",
-                    "label": "尋找附近的咖啡廳吧！"
-                }
-                }
-            ]
-        }
+        "text": text
     }
+}
+
+function addQuickReply(msg) {
+    if (typeof msg !== Array) {
+        msg.quickReply = templates.quickReply;
+    }
+    else {
+        msg[msg.length-1].quickReply = templates.quickReply;
+    }
+    return msg;
 }
 
 exports.commandHandler = commandHandler;

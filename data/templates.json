@@ -269,5 +269,24 @@
           ],
           "flex": 0
         }
-      }
+      },
+    "quickReply": { 
+      "items": [
+          {
+              "type": "action",
+              "action": {
+                  "type": "location",
+                  "label": "尋找附近的咖啡廳吧！"
+              }
+          },
+          {
+              "type": "action",
+              "action": {
+                  "type":"message",
+                  "label":"我的咖啡清單",
+                  "text":"我的清單"
+              }
+          }
+      ]
+    }
 }
