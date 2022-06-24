@@ -76,7 +76,7 @@ async function commandHandler(event) {
                     latitude::float, 
                     longitude::float, 
                     calculate_distance($1, $2, latitude, longitude, 'K') as distance
-             FROM mytable
+             FROM cafe
              ORDER BY distance
              limit 5`;
         
