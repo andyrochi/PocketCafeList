@@ -58,6 +58,21 @@ app.get('/list/:id',cors(), async (req, res) => {
     res.send(response)
 })
 
+app.get('/user/:id',cors(), async (req, res) => {
+  const id = req.params.id
+  let response = 0;
+  await list.getUserInfo(id).then((res)=>{
+    console.log(res)
+    response = res;
+  })
+  if (response === null)
+    res.status(404).send({
+      message: 'User id not found!'
+    })
+  else
+    res.send(response)
+})
+
 // event handler
 async function handleEvent(event) {
   if (event.type !== 'message' && event.message?.type !== 'text' && event.message?.type !== 'location' && event.type !== 'postback') {

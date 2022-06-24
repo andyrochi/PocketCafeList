@@ -32,6 +32,21 @@ async function getUserList(userId) {
     return result;
 }
 
+async function getUserInfo(userId) {
+    const query = 
+     `SELECT * FROM "user" WHERE userid = $1`
+    const param = [userId]
+    let result = null;
+    await db.query(query, param).then((res)=>{
+        if(res.rows.length !== 0) {
+            result = res.rows[0];
+        }
+    })
+    .catch(err=> console.error(err.stack))
+    return result;
+}
+
 module.exports = {
-    getUserList: getUserList
+    getUserList: getUserList,
+    getUserInfo: getUserInfo
 }
