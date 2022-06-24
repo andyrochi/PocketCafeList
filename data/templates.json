@@ -43,7 +43,7 @@
                       "text": "地址",
                       "color": "#aaaaaa",
                       "size": "sm",
-                      "flex": 1
+                      "flex": 2
                     },
                     {
                       "type": "text",
@@ -51,7 +51,7 @@
                       "wrap": true,
                       "color": "#666666",
                       "size": "sm",
-                      "flex": 5
+                      "flex": 6
                     }
                   ]
                 },
@@ -62,10 +62,10 @@
                   "contents": [
                     {
                       "type": "text",
-                      "text": "時間",
+                      "text": "營業時間",
                       "color": "#aaaaaa",
                       "size": "sm",
-                      "flex": 1
+                      "flex": 2
                     },
                     {
                       "type": "text",
@@ -73,11 +73,113 @@
                       "wrap": true,
                       "color": "#666666",
                       "size": "sm",
-                      "flex": 5
+                      "flex": 6
                     }
                   ]
                 }
               ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "align": "start",
+                          "text": "咖啡品質",
+                          "size": "sm",
+                          "flex": 1,
+                          "color": "#aaaaaa"
+                        },
+                        {
+                          "type": "text",
+                          "text": "{{tasty}}",
+                          "size": "sm",
+                          "align": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": "有無限時",
+                          "align": "start",
+                          "size": "sm",
+                          "color": "#aaaaaa"
+                        },
+                        {
+                          "type": "text",
+                          "text": "{{limitedTime}}",
+                          "align": "center",
+                          "size": "sm"
+                        }
+                      ]
+                    }
+                  ],
+                  "flex": 1,
+                  "justifyContent": "center"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "align": "start",
+                          "text": "插座有無",
+                          "size": "sm",
+                          "flex": 1,
+                          "color": "#aaaaaa"
+                        },
+                        {
+                          "type": "text",
+                          "text": "{{socket}}",
+                          "size": "sm",
+                          "align": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "align": "start",
+                          "text": "WiFi穩定",
+                          "size": "sm",
+                          "flex": 1,
+                          "color": "#aaaaaa"
+                        },
+                        {
+                          "type": "text",
+                          "text": "{{wifi}}",
+                          "size": "sm",
+                          "align": "center"
+                        }
+                      ]
+                    }
+                  ],
+                  "flex": 1
+                }
+              ],
+              "margin": "none",
+              "offsetTop": "lg"
             }
           ]
         },
@@ -224,6 +326,108 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "align": "start",
+                          "text": "咖啡品質",
+                          "size": "sm",
+                          "flex": 1,
+                          "color": "#aaaaaa"
+                        },
+                        {
+                          "type": "text",
+                          "text": "{{tasty}}",
+                          "size": "sm",
+                          "align": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": "有無限時",
+                          "align": "start",
+                          "size": "sm",
+                          "color": "#aaaaaa"
+                        },
+                        {
+                          "type": "text",
+                          "text": "{{limitedTime}}",
+                          "align": "center",
+                          "size": "sm"
+                        }
+                      ]
+                    }
+                  ],
+                  "flex": 1,
+                  "justifyContent": "center"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "align": "start",
+                          "text": "插座有無",
+                          "size": "sm",
+                          "flex": 1,
+                          "color": "#aaaaaa"
+                        },
+                        {
+                          "type": "text",
+                          "text": "{{socket}}",
+                          "size": "sm",
+                          "align": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "align": "start",
+                          "text": "WiFi穩定",
+                          "size": "sm",
+                          "flex": 1,
+                          "color": "#aaaaaa"
+                        },
+                        {
+                          "type": "text",
+                          "text": "{{wifi}}",
+                          "size": "sm",
+                          "align": "center"
+                        }
+                      ]
+                    }
+                  ],
+                  "flex": 1
+                }
+              ],
+              "margin": "none",
+              "offsetTop": "lg"
             }
           ]
         },

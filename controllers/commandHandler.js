@@ -4,6 +4,7 @@ const { UserManager, UserInfo } = require('./userManager');
 const templates = require('../data/templates.json');
 const { client, mapsAPI } = require('../index');
 const Mustache = require("mustache");
+const formatJson = require('../data/format.json')
 
 // Disable excape
 Mustache.escape = function(text) {return text;};
@@ -139,9 +140,13 @@ async function commandHandler(event) {
                     name,
                     address, 
                     open_time, 
-                    url, 
+                    url,
+                    tasty::float,
+                    socket,
+                    limited_time,
+                    wifi::float,
                     latitude::float, 
-                    longitude::float, 
+                    longitude::float,
                     calculate_distance($1, $2, latitude, longitude, 'K') as distance
              FROM cafe
              ORDER BY distance
@@ -213,7 +218,11 @@ function createLocation(row, coordinates) {
         id: row.id,
         imageUrl: `https://maps.googleapis.com/maps/api/staticmap?size=400x300&markers=color:brown%7C${row.latitude},${row.longitude}&path=color:brown%7C${coordinates[0]},${coordinates[1]}%7C${row.latitude},${row.longitude}&key=${mapsAPI}`,
         imageActionLink: `https://www.google.com/maps/search/?api=1&query=${row.latitude},${row.longitude}`,
-        time: row.open_time || '12:00 - 19:00'
+        time: row.open_time || '12:00 - 19:00',
+        wifi: row.wifi.toFixed(1),
+        tasty: row.tasty.toFixed(1),
+        limitedTime: row.limited_time ? formatJson.limited_time[row.limited_time] : '無資訊',
+        socket: row.socket ? formatJson.socket[row.socket] : '無資訊'
     }
     const card = renderCard('location_card', data)
     card["footer"]["contents"][1] = getOfficialWebsite(row.url, row.id)
@@ -229,10 +238,14 @@ function createSavedLocation(row) {
         address: row.address,
         nomadUrl: `https://cafenomad.tw/shop/${row.id}`,
         id: row.id,
-        city: dataJson.cities[row.city],
+        city: formatJson.cities[row.city],
         imageUrl: `https://maps.googleapis.com/maps/api/staticmap?size=400x400&markers=color:brown%7C${row.latitude},${row.longitude}&key=${mapsAPI}`,
         imageActionLink: `https://www.google.com/maps/search/?api=1&query=${row.latitude},${row.longitude}`,
-        time: row.open_time || '12:00 - 19:00'
+        time: row.open_time || '12:00 - 19:00',
+        wifi: row.wifi,
+        tasty: row.tasty,
+        limitedTime: row.limited_time ? formatJson.limited_time[row.limited_time] : '無資訊',
+        socket: row.socket ? formatJson.socket[row.socket] : '無資訊'
     }
     const card = renderCard('saved_location_card', data)
     card["footer"]["contents"][1] = getOfficialWebsite(row.url, row.id)
