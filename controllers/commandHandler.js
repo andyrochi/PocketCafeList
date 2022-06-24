@@ -1,5 +1,5 @@
 const db = require('../db');
-const data = require('../data/data.json');
+const dataJson = require('../data/data.json');
 const { UserManager, UserInfo } = require('./userManager');
 const templates = require('../data/templates.json');
 const { client } = require('../index');
@@ -50,17 +50,46 @@ async function commandHandler(event) {
     // Handle text message based on text
     else if (eventMessage.type === 'text') {
         const command = eventMessage.text;
-        if (command in data) {
-            if (data[command] === 'back') {
+        if (command in dataJson) {
+            if (dataJson[command] === 'back') {
                 user.popHistory();
                 const lastCommand = user.getLastMessage();
-                response = data[lastCommand];
+                response = dataJson[lastCommand];
             } else {
-                response = data[command];
+                response = dataJson[command];
                 // to constant input of identical commands
                 if (command !== user.getLastMessage())
                     user.saveHistory(command);
             }
+        }
+        else if (command === 'mylist') {
+            const query = `
+                WITH saved AS
+                    (SELECT *
+                    FROM "saved_location"
+                    WHERE userid = $1)
+                    SELECT *
+                FROM saved NATURAL JOIN cafe`;
+            const params = [userId];
+            await db.query(query, params).then((res) => {
+                const rows = res.rows;
+                let text = '';
+                response = [];
+                const carousel = createCarousel("這是您已儲存的店家");
+                if (rows.length > 0) {
+                    text = `${user.displayName}，這是您已儲存的店家：`
+                    response.push(textMessage(text))
+                    rows.forEach((row)=>{
+                        const card = createSavedLocation(row)
+                        carousel['contents']['contents'].push(card)
+                    })
+                    response.push(carousel)
+                }
+                else {
+                    text = '您尚未儲存咖啡廳，趕快來尋找吧！'
+                    response.push(textMessage(text))
+                }
+            })
         }
     }
     // If location is given, find nearest 5 cafe according to given location
@@ -130,7 +159,7 @@ async function handleUser(eventSource) {
 }
 
 function defaultMessage() {
-    return data['home'];
+    return dataJson['home'];
 }
 
 // Create location card
@@ -150,11 +179,28 @@ function createLocation(row) {
     return card
 }
 
+function createSavedLocation(row) {
+    const date = new Date(row.add_date)
+    const options = {year: 'numeric', month: 'long', day: 'numeric' }
+    const data = {
+        locationName: row.name,
+        addDate: date.toLocaleDateString('zh-TW', options),
+        address: row.address,
+        nomadUrl: `https://cafenomad.tw/shop/${row.id}`,
+        id: row.id,
+        city: dataJson.cities[row.city]
+    }
+    const rendered = Mustache.render(JSON.stringify(templates['saved_location_card']), data)
+    const card = JSON.parse(rendered)
+    card["footer"]["contents"][1] = getOfficialWebsite(row.url)
+    return card
+}
+
 // Create carousel
-function createCarousel() {
+function createCarousel(altText="這是附近的咖啡廳！") {
     return {
         "type":"flex",
-        "altText":"這是這附近的咖啡廳!",
+        "altText":altText,
         "contents": {
             "type": "carousel",
             "contents": []
