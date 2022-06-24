@@ -27,14 +27,21 @@ async function commandHandler(event) {
         if (postback_data === undefined) return response
         const res = postback_data.split("=")
         const mode = res[0], id = res[1]
+        const date = new Date()
         if (mode === 'save') {
             const query = 
-                `INSERT INTO "saved_location"(userid, id)
-                VALUES($1, $2)
+                `INSERT INTO "saved_location"(userid, id, add_date)
+                VALUES($1, $2, $3)
                 ON CONFLICT DO NOTHING`;
-            const params = [userId, id];
+            const params = [userId, id, date];
             await db.query(query,params).then((res) => {
                 console.log('Insert status:', res.rowCount)
+                if (res.rowCount === 1) {
+                    response = textMessage("地點儲存成功！")
+                }
+                else {
+                    response = textMessage("之前已經存過了喔！")
+                }
             }).catch(e => {
                 console.error(e.stack)
             })
@@ -199,6 +206,24 @@ function getOfficialWebsite(url) {
     }
 
     return officialSiteBtn
+}
+
+function textMessage(text) {
+    return {
+        "type": "text",
+        "text": text,
+        "quickReply": { 
+            "items": [
+                {
+                "type": "action",
+                "action": {
+                    "type": "location",
+                    "label": "尋找附近的咖啡廳吧！"
+                }
+                }
+            ]
+        }
+    }
 }
 
 exports.commandHandler = commandHandler;
