@@ -39,13 +39,13 @@ app.post('/callback', line.middleware(config), (req, res) => {
 
 // event handler
 async function handleEvent(event) {
-  if (event.type !== 'message' && event.message.type !== 'text' && event.message.type !== 'location') {
-    // ignore non-text-message/non-location event
+  if (event.type !== 'message' && event.message?.type !== 'text' && event.message?.type !== 'location' && event.type !== 'postback') {
+    // ignore non-text-message/non-location/non-postback event
     return Promise.resolve(null);
   }
 
   // handle text message with commandHandler
-  const echo = await command.commandHandler(event.source, event.message);
+  const echo = await command.commandHandler(event);
   
   if (echo === null) {
     return Promise.resolve(null);

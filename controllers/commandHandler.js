@@ -13,11 +13,35 @@ const manager = new UserManager();
 /*
     Handles commands and maintains each user's history.
 */
-async function commandHandler(eventSource, eventMessage) {
+async function commandHandler(event) {
+    const eventSource = event.source;
+    const eventMessage = event.message;
+
     const user = await handleUser(eventSource);
+    const userId = user.userId;
     let response = defaultMessage();
+
+    if (event.type === 'postback') {
+        console.log(event.postback?.data)
+        const postback_data = event.postback?.data
+        if (postback_data === undefined) return response
+        const res = postback_data.split("=")
+        const mode = res[0], id = res[1]
+        if (mode === 'save') {
+            const query = 
+                `INSERT INTO "saved_location"(userid, id)
+                VALUES($1, $2)
+                ON CONFLICT DO NOTHING`;
+            const params = [userId, id];
+            await db.query(query,params).then((res) => {
+                console.log('Insert status:', res.rowCount)
+            }).catch(e => {
+                console.error(e.stack)
+            })
+        }
+    }
     // Handle text message based on text
-    if (eventMessage.type === 'text') {
+    else if (eventMessage.type === 'text') {
         const command = eventMessage.text;
         if (command in data) {
             if (data[command] === 'back') {
@@ -81,7 +105,7 @@ async function handleUser(eventSource) {
             .then((profile) => {
                 displayName = profile.displayName;
             })
-        manager.insertUser(new UserInfo(userId, displayName));
+        user = manager.insertUser(new UserInfo(userId, displayName));
         const params = [userId, displayName];
         const query = 
             `INSERT INTO "user"(userid, displayname)
@@ -110,7 +134,8 @@ function createLocation(row) {
         locationName: row.name,
         distance: dist,
         address: row.address,
-        nomadUrl: `https://cafenomad.tw/shop/${id}`
+        nomadUrl: `https://cafenomad.tw/shop/${id}`,
+        id: row.id
     }
     const rendered = Mustache.render(JSON.stringify(templates['location_card']), data)
     const card = JSON.parse(rendered)
@@ -151,7 +176,8 @@ function getOfficialWebsite(url) {
             "type": "message",
             "label": "Official Site",
             "text": "本店尚無官方網站"
-        }
+        },
+        "color": "#aaaaaa"
     }
 
     if (url !== null) {
@@ -167,7 +193,8 @@ function getOfficialWebsite(url) {
               "type": "uri",
               "label": "Official Site",
               "uri": url
-            }
+            },
+            "color": "#49281A"
         }
     }
 
