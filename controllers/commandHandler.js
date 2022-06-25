@@ -11,6 +11,7 @@ Mustache.escape = function(text) {return text;};
 
 const dateOptions = {year: 'numeric', month: 'long', day: 'numeric' }
 const manager = new UserManager();
+const frontendUrl = process.env.FRONTEND_URL;
 
 /*
     Handles commands and maintains each user's history.
@@ -21,7 +22,7 @@ async function commandHandler(event) {
 
     const user = await handleUser(eventSource);
     const userId = user.userId;
-    let response = defaultMessage();
+    let response = defaultMessage(userId);
 
     if (event.type === 'postback') {
         console.log(event.postback?.data)
@@ -232,8 +233,11 @@ async function handleUser(eventSource) {
     return user;
 }
 
-function defaultMessage() {
-    return dataJson['home'];
+function defaultMessage(userId) {
+    const url = `${frontendUrl}/lists/${userId}`;
+    const json = dataJson['home'];
+    json['contents']['contents'][1]['footer']['contents'][0]['action']['uri'] = url;
+    return json;
 }
 
 // Create location card
