@@ -689,13 +689,12 @@
               "type": "button",
               "action": {
                 "type": "postback",
-                "label": "移除地點",
-                "data": "delete={{id}}"
+                "label": "儲存地點",
+                "data": "save={{id}}",
+                "displayText": "儲存地點：{{locationName}}"
               },
-              "color": "#C70039",
-              "style": "link",
-              "position": "relative",
-              "height": "sm"
+              "color": "#905c44",
+              "style": "primary"
             }
           ],
           "flex": 0
@@ -778,10 +777,18 @@
               "type": "action",
               "action": {
                   "type":"message",
-                  "label":"我的咖啡清單",
+                  "label":"我的咖啡廳清單",
                   "text":"我的清單"
               }
-          }
+          },
+          {
+            "type": "action",
+            "action": {
+                "type":"message",
+                "label":"顯示主頁",
+                "text":"顯示主頁"
+            }
+        }
       ]
     }
 }
