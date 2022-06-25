@@ -4,45 +4,30 @@
         "type":"flex",
         "altText":"home",
         "contents":{
-            "type": "bubble",
-            "hero": {
-              "type": "image",
-              "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
-              "size": "full",
-              "aspectRatio": "20:13",
-              "aspectMode": "cover",
-              "action": {
-                "type": "uri",
-                "uri": "http://linecorp.com/"
-              }
-            },
-            "body": {
-              "type": "box",
-              "layout": "vertical",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "歡迎，來尋找咖啡廳吧！",
-                  "weight": "bold",
-                  "size": "xl"
+            "type": "carousel",
+            "contents": [
+              {
+                "type": "bubble",
+                "hero": {
+                  "type": "image",
+                  "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+                  "size": "full",
+                  "aspectRatio": "20:13",
+                  "aspectMode": "cover",
+                  "action": {
+                    "type": "uri",
+                    "uri": "http://linecorp.com/"
+                  }
                 },
-                {
+                "body": {
                   "type": "box",
                   "layout": "vertical",
                   "contents": [
                     {
                       "type": "text",
-                      "text": "探索咖啡廳",
+                      "text": "歡迎，來尋找咖啡廳吧！",
                       "weight": "bold",
-                      "margin": "md",
-                      "color": "#905c44"
-                    },
-                    {
-                      "type": "text",
-                      "text": "只要傳給我任意的位置，我就能夠幫你找到最近的咖啡廳唷！點選下方的「尋找附近的咖啡廳吧！」馬上開始",
-                      "size": "sm",
-                      "wrap": true,
-                      "margin": "sm"
+                      "size": "xl"
                     },
                     {
                       "type": "box",
@@ -50,43 +35,206 @@
                       "contents": [
                         {
                           "type": "text",
-                          "text": "收藏地點",
+                          "text": "探索咖啡廳",
                           "weight": "bold",
                           "margin": "md",
                           "color": "#905c44"
                         },
                         {
                           "type": "text",
-                          "text": "看到感興趣的咖啡廳即可收藏！點選下列「我的清單」即可查看清單",
+                          "text": "只要傳給我任意的位置，我就能夠幫你找到最近的咖啡廳唷！點選下方的「尋找附近的咖啡廳吧！」馬上開始",
                           "size": "sm",
                           "wrap": true,
                           "margin": "sm"
+                        },
+                        {
+                          "type": "box",
+                          "layout": "vertical",
+                          "contents": [
+                            {
+                              "type": "text",
+                              "text": "收藏地點",
+                              "weight": "bold",
+                              "margin": "md",
+                              "color": "#905c44"
+                            },
+                            {
+                              "type": "text",
+                              "text": "看到感興趣的咖啡廳即可收藏！點選下列「我的清單」即可查看清單",
+                              "size": "sm",
+                              "wrap": true,
+                              "margin": "sm"
+                            }
+                          ]
                         }
                       ]
                     }
                   ]
+                },
+                "footer": {
+                  "type": "box",
+                  "layout": "vertical",
+                  "spacing": "sm",
+                  "contents": [
+                    {
+                      "type": "button",
+                      "style": "primary",
+                      "height": "sm",
+                      "action": {
+                        "type": "message",
+                        "label": "我的清單",
+                        "text": "我的清單"
+                      },
+                      "color": "#905c44"
+                    }
+                  ],
+                  "flex": 0
                 }
-              ]
-            },
-            "footer": {
-              "type": "box",
-              "layout": "vertical",
-              "spacing": "sm",
-              "contents": [
-                {
-                  "type": "button",
-                  "style": "primary",
-                  "height": "sm",
-                  "action": {
-                    "type": "message",
-                    "label": "我的咖啡廳清單",
-                    "text": "我的清單"
-                  },
-                  "color": "#905c44"
+              },
+              {
+                "type": "bubble",
+                "body": {
+                  "type": "box",
+                  "layout": "vertical",
+                  "spacing": "sm",
+                  "contents": [
+                    {
+                      "type": "box",
+                      "layout": "vertical",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": "關於",
+                          "wrap": true,
+                          "weight": "bold",
+                          "size": "xl"
+                        },
+                        {
+                          "type": "text",
+                          "text": "此應用的資料來源來自：",
+                          "size": "sm",
+                          "wrap": true
+                        },
+                        {
+                          "type": "text",
+                          "text": "咖啡廳遊牧民族 Cafe Nomad",
+                          "action": {
+                            "type": "uri",
+                            "label": "action",
+                            "uri": "https://cafenomad.tw/"
+                          },
+                          "style": "normal",
+                          "decoration": "underline",
+                          "margin": "sm"
+                        },
+                        {
+                          "type": "text",
+                          "text": "感謝他們提供 API 獲取資料！",
+                          "size": "sm",
+                          "wrap": true
+                        }
+                      ]
+                    },
+                    {
+                      "type": "box",
+                      "layout": "vertical",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": "探索地區",
+                          "wrap": true,
+                          "weight": "bold",
+                          "size": "xl"
+                        },
+                        {
+                          "type": "text",
+                          "text": "不知道從哪裡下手嗎？不然來看看各地區綜合評價最好的咖啡廳吧！",
+                          "size": "sm",
+                          "wrap": true
+                        },
+                        {
+                          "type": "button",
+                          "action": {
+                            "type": "postback",
+                            "label": "台北",
+                            "data": "explore=taipei",
+                            "displayText": "探索台北"
+                          },
+                          "height": "sm"
+                        },
+                        {
+                          "type": "button",
+                          "action": {
+                            "type": "postback",
+                            "label": "新竹",
+                            "data": "explore=hsinchu",
+                            "displayText": "探索新竹"
+                          },
+                          "height": "sm"
+                        },
+                        {
+                          "type": "button",
+                          "action": {
+                            "type": "postback",
+                            "label": "台中",
+                            "data": "explore=taichung",
+                            "displayText": "探索台中"
+                          },
+                          "height": "sm"
+                        },
+                        {
+                          "type": "button",
+                          "action": {
+                            "type": "postback",
+                            "label": "台南",
+                            "data": "explore=tainan",
+                            "displayText": "探索台南"
+                          },
+                          "height": "sm"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "box",
+                      "layout": "vertical",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": "分享我的清單",
+                          "wrap": true,
+                          "weight": "bold",
+                          "size": "xl"
+                        },
+                        {
+                          "type": "text",
+                          "text": "想和其他人分享你的口袋咖啡廳名單嗎？點擊下方按鈕以獲取連結！",
+                          "size": "sm",
+                          "wrap": true
+                        }
+                      ]
+                    }
+                  ],
+                  "justifyContent": "flex-start"
+                },
+                "footer": {
+                  "type": "box",
+                  "layout": "vertical",
+                  "spacing": "sm",
+                  "contents": [
+                    {
+                      "type": "button",
+                      "action": {
+                        "type": "uri",
+                        "label": "分享我的收藏",
+                        "uri": "http://www.google.com/"
+                      },
+                      "height": "sm",
+                      "style": "secondary"
+                    }
+                  ]
                 }
-              ],
-              "flex": 0
-            }
+              }
+            ]
           }
     },
     "about":{
