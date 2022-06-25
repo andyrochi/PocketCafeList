@@ -474,6 +474,233 @@
           "flex": 0
         }
       },
+      "explore_location_card": {
+        "type": "bubble",
+        "hero": {
+          "type": "image",
+          "url": "{{imageUrl}}",
+          "size": "full",
+          "aspectRatio": "20:13",
+          "aspectMode": "cover",
+          "action": {
+            "type": "uri",
+            "uri": "{{imageActionLink}}"
+          }
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "{{locationName}}",
+              "weight": "bold",
+              "size": "xl"
+            },
+            {
+              "type": "text",
+              "text": "{{city}}",
+              "size": "md"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "margin": "lg",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "baseline",
+                  "spacing": "sm",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "地址",
+                      "color": "#aaaaaa",
+                      "size": "sm",
+                      "flex": 2
+                    },
+                    {
+                      "type": "text",
+                      "text": "{{address}}",
+                      "wrap": true,
+                      "color": "#666666",
+                      "size": "sm",
+                      "flex": 7
+                    }
+                  ]
+                },
+                {
+                  "type": "box",
+                  "layout": "baseline",
+                  "spacing": "sm",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "時間",
+                      "color": "#aaaaaa",
+                      "size": "sm",
+                      "flex": 2
+                    },
+                    {
+                      "type": "text",
+                      "text": "{{time}}",
+                      "wrap": true,
+                      "color": "#666666",
+                      "size": "sm",
+                      "flex": 7
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "align": "start",
+                          "text": "咖啡品質",
+                          "size": "sm",
+                          "flex": 1,
+                          "color": "#aaaaaa"
+                        },
+                        {
+                          "type": "text",
+                          "text": "{{tasty}}",
+                          "size": "sm",
+                          "align": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": "有無限時",
+                          "align": "start",
+                          "size": "sm",
+                          "color": "#aaaaaa"
+                        },
+                        {
+                          "type": "text",
+                          "text": "{{limitedTime}}",
+                          "align": "center",
+                          "size": "sm"
+                        }
+                      ]
+                    }
+                  ],
+                  "flex": 1,
+                  "justifyContent": "center"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "align": "start",
+                          "text": "插座有無",
+                          "size": "sm",
+                          "flex": 1,
+                          "color": "#aaaaaa"
+                        },
+                        {
+                          "type": "text",
+                          "text": "{{socket}}",
+                          "size": "sm",
+                          "align": "center"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "align": "start",
+                          "text": "WiFi穩定",
+                          "size": "sm",
+                          "flex": 1,
+                          "color": "#aaaaaa"
+                        },
+                        {
+                          "type": "text",
+                          "text": "{{wifi}}",
+                          "size": "sm",
+                          "align": "center"
+                        }
+                      ]
+                    }
+                  ],
+                  "flex": 1
+                }
+              ],
+              "margin": "none",
+              "offsetTop": "lg"
+            }
+          ]
+        },
+        "footer": {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "button",
+              "style": "link",
+              "height": "sm",
+              "action": {
+                "type": "uri",
+                "label": "View on Cafe Nomad",
+                "uri": "{{nomadUrl}}"
+              },
+              "color": "#905c44"
+            },
+            {
+              "type": "button",
+              "style": "link",
+              "height": "sm",
+              "action": {
+                "type": "uri",
+                "label": "Official Site",
+                "uri": "https://www.google.com"
+              },
+              "color": "#49281A"
+            },
+            {
+              "type": "button",
+              "action": {
+                "type": "postback",
+                "label": "移除地點",
+                "data": "delete={{id}}"
+              },
+              "color": "#C70039",
+              "style": "link",
+              "position": "relative",
+              "height": "sm"
+            }
+          ],
+          "flex": 0
+        }
+      },
     "status": {
       "type":"flex",
       "altText":"home",

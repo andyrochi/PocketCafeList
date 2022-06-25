@@ -29,15 +29,26 @@ async function commandHandler(event) {
         if (postback_data === undefined) return response
         const res = postback_data.split("=")
         const mode = res[0], id = res[1]
-
+        
         /* Obtain location info */
-        const query = 
+        let query = 
             `SELECT * FROM cafe WHERE id = $1`
-        const params = [id];
+        let params = [id];
         let location = {};
-        await db.query(query, params).then((res)=>{
-            location = res.rows[0];
-        }).catch(e=> console.error(e.stack))
+        if (mode !== 'explore') {
+            await db.query(query, params).then((res)=>{
+                location = res.rows[0];
+            }).catch(e=> console.error(e.stack))
+        }
+        else {
+            query = 
+            `SELECT *, wifi+seat+quiet+tasty+cheap+music AS total
+                FROM cafe
+                WHERE city=$1
+                ORDER BY total DESC
+                limit 10`
+            params = [id]
+        }
 
         const date = new Date()
         if (mode === 'save') {
@@ -85,6 +96,16 @@ async function commandHandler(event) {
         else if (mode === 'nosite') {
             response = textMessage(`${location.name}尚無官方網站哦！`)
         }
+        else if (mode === 'explore') {
+            await db.query(query, params).then((res) => {
+                const carousel = createCarousel()
+                res.rows.forEach((row) => {
+                    const card = createSavedExploreLocation(row, explore=true)
+                    carousel['contents']['contents'].push(card)
+                })
+                response = carousel
+            })
+        }
     }
     // Handle text message based on text
     else if (eventMessage.type === 'text') {
@@ -126,7 +147,7 @@ async function commandHandler(event) {
                         if(!result[chunkIndex]) {
                             result[chunkIndex] = addQuickReply(createCarousel("這是您已儲存的店家"));
                         }
-                        const card = createSavedLocation(row)
+                        const card = createSavedExploreLocation(row)
                         result[chunkIndex]['contents']['contents'].push(card)
 
                         return result
@@ -238,8 +259,8 @@ function createLocation(row, coordinates) {
     return card
 }
 
-function createSavedLocation(row) {
-    const date = new Date(row.add_date)
+function createSavedExploreLocation(row, explore=false) {
+    const date = explore === false ? new Date(row.add_date) : new Date()
     
     const data = {
         locationName: row.name,
@@ -256,7 +277,10 @@ function createSavedLocation(row) {
         limitedTime: row.limited_time ? formatJson.limited_time[row.limited_time] : '無資訊',
         socket: row.socket ? formatJson.socket[row.socket] : '無資訊'
     }
-    const card = renderCard('saved_location_card', data)
+
+    if(explore)
+        console.log(data)
+    const card = explore ? renderCard('explore_location_card', data) : renderCard('saved_location_card', data)
     card["footer"]["contents"][1] = getOfficialWebsite(row.url, row.id)
     return card
 }
